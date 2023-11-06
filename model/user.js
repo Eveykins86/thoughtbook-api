@@ -1,42 +1,38 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const validateEmail = require('../util/validateEmail');
 
-const userSchema = new Schema({
-  username: {
+
+const userSchema = mongoose.Schema({
+  username: { 
     type: String,
     unique: true,
-    required: true,
+    require: true,
     trim: true,
   },
   email: {
     type: String,
-    required: true,
     unique: true,
-    match: /^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/, // Email validation using regex
+    require: true,
+    validate: validateEmail
   },
-  password: {
-    type: String,
-    required: true, // You should hash the password for security
-  },
-  thoughts: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Thought',
-    },
-  ],
-  friends: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-  ],
-});
+  thoughts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Thought'
+  }],
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
+})
 
-// Define a virtual called friendCount
-userSchema.virtual('friendCount').get(function () {
-  return this.friends.length;
-});
+userSchema.pre('remove', async function(next) {
+  Thought.remove({ user_id: this._id }).exec();
+  next();
+})
 
-const User = mongoose.model('User', userSchema);
+userSchema.virtual('friendCount').get(function() {
+  return this.friends.length();
+})
 
-module.exports = User;
+
+module.exports =  mongoose.model('User', userSchema);
