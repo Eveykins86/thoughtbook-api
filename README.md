@@ -38,9 +38,15 @@ The `thoughtbook-api` is a MongoDB/Mongoose API for a social networking applicat
 
 To use the thoughtbook-api, you can make requests to the following endpoints:
 
-GET /api/user: Get all users.
-GET /api/user/:id: Get a single user by their ID.
-POST /api/user: Create a new user.
+`GET /api/user:` Get all users.
+
+`GET /api/user/:id:` Get a single user by their ID.
+
+`POST /api/user:` Create a new user.
+
+`POST /api/Thought:` Create a new Thought for the user.
+
+`DELETE /api/user/:id:` Delete a user.
 
 ## Contribution
 
