@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validateEmail = require('../util/validateEmail');
 
+
 const userSchema = mongoose.Schema({
   username: { 
     type: String,
@@ -20,7 +21,7 @@ const userSchema = mongoose.Schema({
   }],
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
   }],
 })
 
@@ -34,4 +35,4 @@ userSchema.virtual('friendCount').get(function() {
 })
 
 
-module.exports =  mongoose.model('user', userSchema);
+module.exports =  mongoose.model('User', userSchema);
