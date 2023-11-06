@@ -5,7 +5,7 @@ const apiRoutes = require('./api');
 const app = express();
 const db = require('./connection')
 
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3006
 
 
 
